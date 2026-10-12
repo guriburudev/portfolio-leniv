@@ -1,0 +1,10 @@
+# Variables de entorno secretas
+.env
+.env.local
+app/.env
+
+# Librerías y compilación
+node_modules/
+app/node_modules/
+dist/
+app/dist/
