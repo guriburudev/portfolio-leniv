@@ -41,11 +41,11 @@
   color-scheme: dark;
   --bg-canvas: #0a0c10; --bg-surface: #11141c; --bg-surface-hover: #161a25;
   --bg-elevated: #1a1f2e; --bg-overlay: rgba(10,12,16,0.85);
-  --border-subtle: rgba(255,255,255,0.06); --border-default: rgba(255,255,255,0.10);
-  --border-strong: rgba(255,255,255,0.16); --border-focus: #0055ff;
-  --accent-primary: #0055ff; --accent-primary-hover: #1a66ff;
+  --border-subtle: rgba(255,255,255,0.08); --border-default: rgba(255,255,255,0.14);
+  --border-strong: rgba(255,255,255,0.22); --border-focus: #0055ff;
+  --accent-primary: #0055ff; --accent-hover: #1a66ff; --accent-primary-hover: var(--accent-hover);
   --accent-primary-active: #0044cc; --accent-glow: #0040cc;
-  --accent-surface: rgba(0,85,255,0.08); --accent-surface-hover: rgba(0,85,255,0.14);
+  --accent-surface: rgba(0,85,255,0.12); --accent-surface-hover: rgba(0,85,255,0.20);
   --text-primary: #ffffff; --text-secondary: #94a3b8; --text-tertiary: #64748b;
   --text-disabled: #334155; --text-inverse: #0a0c10; --text-on-accent: #ffffff;
   --state-success: #22c55e; --state-warning: #f59e0b; --state-error: #ef4444; --state-info: #3b82f6;
@@ -54,19 +54,20 @@
   --code-function: #d2a8ff; --code-number: #79c0ff; --code-variable: #ffa657;
   --doc-bg: #0d0f14; --doc-surface: #12151d; --doc-heading: #e2e8f0;
   --doc-text: #94a3b8; --doc-accent: #0055ff; --doc-border: rgba(255,255,255,0.08);
+  --grid-line: rgba(255,255,255,0.03);
 }
 
 /* Valores alternativos del manual para el modo claro. */
 [data-theme="light"] {
   color-scheme: light;
   --bg-canvas: #f8fafc; --bg-surface: #ffffff; --bg-surface-hover: #f1f5f9;
-  --bg-elevated: #ffffff; --bg-overlay: rgba(248,250,252,0.85);
-  --border-subtle: rgba(0,0,0,0.05); --border-default: #e2e8f0;
+  --bg-elevated: #f8fafc; --bg-overlay: rgba(248,250,252,0.88);
+  --border-subtle: #f1f5f9; --border-default: #e2e8f0;
   --border-strong: #cbd5e1; --border-focus: #ff5500;
-  --accent-primary: #ff5500; --accent-primary-hover: #e64d00;
+  --accent-primary: #ff5500; --accent-hover: #e04b00; --accent-primary-hover: var(--accent-hover);
   --accent-primary-active: #cc4400; --accent-glow: #ff6b1a;
-  --accent-surface: rgba(255,85,0,0.06); --accent-surface-hover: rgba(255,85,0,0.12);
-  --text-primary: #0f172a; --text-secondary: #475569; --text-tertiary: #94a3b8;
+  --accent-surface: rgba(255,85,0,0.10); --accent-surface-hover: rgba(255,85,0,0.18);
+  --text-primary: #0f172a; --text-secondary: #475569; --text-tertiary: #64748b;
   --text-disabled: #cbd5e1; --text-inverse: #ffffff; --text-on-accent: #ffffff;
   --state-success: #16a34a; --state-warning: #d97706; --state-error: #dc2626; --state-info: #2563eb;
   --code-bg: #f1f5f9; --code-border: #e2e8f0;
@@ -74,6 +75,7 @@
   --code-function: #6f42c1; --code-number: #0dcaf0; --code-variable: #fd7e14;
   --doc-bg: #f8fafc; --doc-surface: #ffffff; --doc-heading: #0f172a;
   --doc-text: #475569; --doc-accent: #ff5500; --doc-border: #e2e8f0;
+  --grid-line: rgba(15,23,42,0.04);
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.1); --shadow-xl: 0 25px 60px rgba(0,0,0,0.12);
   --shadow-glow-primary: 0 0 30px rgba(255,85,0,0.15);
@@ -89,6 +91,12 @@ button, a { font: inherit; }
 a { color: inherit; text-decoration: none; }
 button:focus-visible, a:focus-visible { outline: 3px solid var(--border-focus); outline-offset: 3px; }
 ::selection { color: var(--text-on-accent); background: var(--accent-primary); }
+
+/* Cuadrícula sutil compartida por las dos versiones del diseño entregado. */
+.bg-grid-pattern {
+  background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
 
 @media (prefers-reduced-motion: reduce) {
   /* Respeta la preferencia del sistema y reduce los cambios no esenciales. */

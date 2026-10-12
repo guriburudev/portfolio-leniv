@@ -4,6 +4,7 @@ import Footer from './components/Footer'
 import Hero from './components/Hero'
 import BentoGrid from './components/BentoGrid'
 import About from './components/About'
+import ContactSection from './components/ContactSection'
 
 export default function App() {
   // El tema inicial respeta la elección anterior; si no existe, se usa el modo oscuro del manual.
@@ -19,16 +20,19 @@ export default function App() {
   }, [theme])
 
   return (
-    <div className="min-h-screen overflow-hidden bg-canvas text-text-primary">
+    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-canvas text-text-primary">
+      {/* Fondo ambiental estático y decorativo de las referencias visuales. */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute -top-[15%] left-1/2 h-[450px] w-[750px] -translate-x-1/2 rounded-full bg-accent-surface blur-[140px]" />
+        <div className="absolute right-[-10%] top-[45%] h-[500px] w-[500px] rounded-full bg-accent-surface blur-[160px]" />
+        <div className="bg-grid-pattern absolute inset-0" />
+      </div>
       <Navbar theme={theme} onThemeChange={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} />
-      <main>
+      <main className="relative z-10 mx-auto w-full max-w-6xl flex-grow px-4 pb-20 pt-32 sm:px-6">
         <Hero />
-        <About />
         <BentoGrid />
-        {/* El formulario y su persistencia pertenecen a HU03, a cargo de otro integrante. */}
-        <section id="contacto" aria-label="Sección reservada para HU03" className="mx-auto max-w-7xl px-5 py-20 text-center sm:px-8 sm:py-28">
-          <p className="font-mono text-sm text-text-tertiary">--Aquí corresponde la HU03--</p>
-        </section>
+        <About />
+        <ContactSection />
       </main>
       <Footer />
     </div>
