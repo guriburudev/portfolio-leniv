@@ -1,9 +1,13 @@
+import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+
 // Navegación flotante de la referencia, con un menú compacto para pantallas pequeñas.
+// Los enlaces usan "/#..." para que también funcionen desde /login, /register, etc.
 const links = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Sobre mí', href: '#sobre-mi' },
-  { label: 'Contacto', href: '#contacto' },
+  { label: 'Inicio', href: '/#inicio' },
+  { label: 'Proyectos', href: '/#proyectos' },
+  { label: 'Sobre mí', href: '/#sobre-mi' },
+  { label: 'Contacto', href: '/#contacto' },
 ]
 
 type NavbarProps = {
@@ -11,13 +15,18 @@ type NavbarProps = {
   onThemeChange: () => void
 }
 
+const authLink =
+  'inline-flex items-center justify-center rounded-md border border-default bg-surface px-3 py-2 text-xs font-semibold text-text-primary hover:border-accent'
+
 // La barra conserva el control de tema que se conecta a los tokens globales.
 export default function Navbar({ theme, onThemeChange }: NavbarProps) {
+  const { session, isAdmin, signOut } = useAuth()
+
   return (
     <header className="fixed inset-x-4 top-4 z-50 mx-auto max-w-6xl sm:inset-x-6">
       <nav aria-label="Navegación principal" className="relative rounded-xl border border-default bg-overlay px-4 py-3 shadow-lg backdrop-blur-xl sm:px-5">
         <div className="flex items-center justify-between gap-3">
-          <a aria-label="Alex Dev, ir al inicio" className="flex shrink-0 items-center gap-2.5" href="#inicio">
+          <a aria-label="Alex Dev, ir al inicio" className="flex shrink-0 items-center gap-2.5" href="/#inicio">
             <span aria-hidden="true" className="grid size-10 place-items-center rounded-md bg-accent font-mono text-base font-bold text-text-on-accent">&lt;A/&gt;</span>
             <span className="flex flex-col">
               <span className="font-display text-sm font-bold tracking-tight text-text-primary">Alex Dev<span className="text-accent">.</span></span>
@@ -45,10 +54,20 @@ export default function Navbar({ theme, onThemeChange }: NavbarProps) {
                 </svg>
               )}
             </button>
-            <span className="hidden items-center gap-2 rounded-full border border-accent/20 bg-accent-surface px-2.5 py-1 font-mono text-[11px] font-medium text-accent sm:flex">
+            <span className="hidden items-center gap-2 rounded-full border border-accent/20 bg-accent-surface px-2.5 py-1 font-mono text-[11px] font-medium text-accent xl:flex">
               <span aria-hidden="true" className="size-1.5 rounded-full bg-success" /> Open to work
             </span>
-            <a className="inline-flex items-center justify-center gap-1.5 rounded-md bg-accent px-3 py-2 text-xs font-semibold text-text-on-accent hover:bg-accent-hover sm:px-4" href="#contacto">
+
+            {session ? (
+              <>
+                {isAdmin && <Link className={authLink} to="/admin">Admin</Link>}
+                <button className={authLink} onClick={() => void signOut()} type="button">Salir</button>
+              </>
+            ) : (
+              <Link className={authLink} to="/login">Iniciar sesión</Link>
+            )}
+
+            <a className="hidden items-center justify-center gap-1.5 rounded-md bg-accent px-3 py-2 text-xs font-semibold text-text-on-accent hover:bg-accent-hover sm:inline-flex sm:px-4" href="/#contacto">
               Conectar <span aria-hidden="true">→</span>
             </a>
           </div>
