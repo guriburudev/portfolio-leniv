@@ -4,7 +4,7 @@ import Footer from './components/Footer'
 import Hero from './components/Hero'
 import BentoGrid from './components/BentoGrid'
 import About from './components/About'
-import ContactSection from './components/ContactSection'
+import ContactSection from './components/Contact/ContactSection'
 
 export default function App() {
   // El tema inicial respeta la elección anterior; si no existe, se usa el modo oscuro del manual.
