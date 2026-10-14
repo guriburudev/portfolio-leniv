@@ -1,4 +1,5 @@
 import DemoButton from './DemoButton'
+import { useRef, type MouseEvent } from 'react'
 
 export type PreviewKind = 'analytics' | 'tasks' | 'api' | 'system'
 
@@ -93,16 +94,36 @@ function ProjectPreview({ kind }: { kind: PreviewKind }) {
 // Tarjeta reutilizable con preview, contenido y enlace de demostración siempre visible.
 export default function ProjectCard({ project }: ProjectCardProps) {
   const projectId = project.id ?? slugify(project.title)
+  const cardRef = useRef<HTMLElement>(null)
+
+const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
+  const el = cardRef.current
+  if (!el) return
+  const rect = el.getBoundingClientRect()
+  el.style.setProperty('--glow-x', `${e.clientX - rect.left}px`)
+  el.style.setProperty('--glow-y', `${e.clientY - rect.top}px`)
+}
 
   return (
-    <article className={`flex flex-col justify-between overflow-hidden rounded-2xl border border-default bg-surface ${project.featured ? 'lg:col-span-2' : ''}`}>
+    <article 
+      ref ={cardRef}
+      onMouseMove={handleMouseMove}
+      className={`flex flex-col justify-between overflow-hidden rounded-2xl border border-default bg-surface ${project.featured ? 'lg:col-span-2' : ''}`}>
+        <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      style={{
+        background:
+          'radial-gradient(260px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(52,211,153,0.18), transparent 70%)',
+      }}
+    />
       <div role="img" aria-label={`Vista previa estática del proyecto ${project.title}`} className="relative flex h-64 items-center justify-center overflow-hidden border-b border-subtle bg-elevated p-5 sm:h-72 sm:p-6">
         <ProjectPreview kind={project.preview} />
         <span className={`absolute left-4 top-4 rounded-full border px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider backdrop-blur ${project.featured ? 'border-accent/30 bg-overlay text-accent' : 'border-subtle bg-overlay text-text-tertiary'}`}>
           {project.featured ? '★ Proyecto principal · 2 col' : 'Preview de proyecto'}
         </span>
       </div>
-      <div className="flex flex-grow flex-col justify-between gap-6 p-6 sm:p-7">
+      <div className="flex flex-grow flex-col justify-between gap-6 p-6 sm:p-7 relative">
         <div>
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <span className="rounded border border-accent/20 bg-accent-surface px-2.5 py-0.5 font-mono text-[11px] font-semibold text-accent">{project.category}</span>
