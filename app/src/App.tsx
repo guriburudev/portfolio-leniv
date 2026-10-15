@@ -12,7 +12,6 @@ import RegisterPage from './pages/RegisterPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import AdminPage from './pages/AdminPage'
 
-import ContactSection from './components/ContactSection'
 import ContactSection from './components/Contact/ContactSection'
 
 export default function App() {
