@@ -1,6 +1,9 @@
+import DemoButton from './DemoButton'
+
 export type PreviewKind = 'analytics' | 'tasks' | 'api' | 'system'
 
 export type Project = {
+  id?: string
   title: string
   category: string
   description: string
@@ -11,6 +14,18 @@ export type Project = {
 }
 
 type ProjectCardProps = { project: Project }
+
+// ID estable del proyecto para el deep link (/login?project=<id> → /work/<id>).
+function slugify(text: string): string {
+  const slug = text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 64)
+  return slug || 'proyecto'
+}
 
 // Vista ilustrativa correspondiente a cada proyecto; todos sus elementos son estáticos.
 function ProjectPreview({ kind }: { kind: PreviewKind }) {
@@ -77,6 +92,8 @@ function ProjectPreview({ kind }: { kind: PreviewKind }) {
 
 // Tarjeta reutilizable con preview, contenido y enlace de demostración siempre visible.
 export default function ProjectCard({ project }: ProjectCardProps) {
+  const projectId = project.id ?? slugify(project.title)
+
   return (
     <article className={`flex flex-col justify-between overflow-hidden rounded-2xl border border-default bg-surface ${project.featured ? 'lg:col-span-2' : ''}`}>
       <div role="img" aria-label={`Vista previa estática del proyecto ${project.title}`} className="relative flex h-64 items-center justify-center overflow-hidden border-b border-subtle bg-elevated p-5 sm:h-72 sm:p-6">
@@ -98,10 +115,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-text-secondary" aria-label={`Tecnologías de ${project.title}`}>
             {project.technologies.map((technology) => <span key={technology} className="rounded border border-subtle bg-elevated px-2 py-1">{technology}</span>)}
           </div>
-          {/* Destino de muestra; HU01 solo presenta el acceso visible a la demo. */}
-          <a aria-label={`Demo en vivo de ${project.title}`} className="inline-flex min-h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-accent px-4 py-2.5 text-xs font-semibold text-text-on-accent hover:bg-accent-hover" href={project.demoHref}>
+          {/* Sin sesión lleva al login guardando el proyecto; con sesión, al detalle del proyecto. */}
+          <DemoButton
+            projectId={projectId}
+            ariaLabel={`Demo en vivo de ${project.title}`}
+            className="inline-flex min-h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-md bg-accent px-4 py-2.5 text-xs font-semibold text-text-on-accent hover:bg-accent-hover"
+          >
             Demo en vivo <span aria-hidden="true" className="ml-1">→</span>
-          </a>
+          </DemoButton>
         </div>
       </div>
     </article>
