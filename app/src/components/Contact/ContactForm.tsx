@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+import { createContactMessage } from '../../services/contactService';
 
 function LottieLoader() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -9,18 +11,20 @@ function LottieLoader() {
   useEffect(() => {
     let anim: any;
     if (containerRef.current) {
-      import('lottie-web').then((lottieModule) => {
-        const lottiePlayer = lottieModule.default || lottieModule;
-        anim = lottiePlayer.loadAnimation({
-          container: containerRef.current!,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          animationData: defaultLoadingAnimation,
+      import('lottie-web')
+        .then((lottieModule) => {
+          const lottiePlayer = lottieModule.default || lottieModule;
+          anim = lottiePlayer.loadAnimation({
+            container: containerRef.current!,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: defaultLoadingAnimation,
+          });
+        })
+        .catch(() => {
+          // Fallback silencioso
         });
-      }).catch(() => {
-        // Fallback silencioso
-      });
     }
 
     return () => {
@@ -51,9 +55,9 @@ const contactSchema = z.object({
     .trim()
     .min(10, 'El mensaje debe tener al menos 10 caracteres')
     .max(2000, 'El mensaje excede los 2000 caracteres'),
-})
+});
 
-type ContactFormData = z.infer<typeof contactSchema>
+type ContactFormData = z.infer<typeof contactSchema>;
 
 // Animación Lottie fallback integrada
 const defaultLoadingAnimation = {
@@ -123,12 +127,12 @@ const defaultLoadingAnimation = {
       bm: 0,
     },
   ],
-}
+};
 
 export function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [serverError, setServerError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -137,34 +141,23 @@ export function ContactForm() {
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-  })
+  });
 
   const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true)
-    setServerError(null)
-    setSuccess(false)
+    setIsSubmitting(true);
+    setServerError(null);
+    setSuccess(false);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-
-      const resJson = await response.json()
-
-      if (!response.ok) {
-        throw new Error(resJson.error || 'Ocurrió un error al enviar el formulario')
-      }
-
-      setSuccess(true)
-      reset()
+      await createContactMessage(data);
+      setSuccess(true);
+      reset();
     } catch (err: any) {
-      setServerError(err.message || 'Error de conexión con el servidor')
+      setServerError(err.message || 'Error al conectar con la base de datos');
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="rounded-2xl border border-default bg-surface p-6 shadow-lg lg:col-span-7">
@@ -281,5 +274,5 @@ export function ContactForm() {
         </button>
       </form>
     </div>
-  )
+  );
 }
