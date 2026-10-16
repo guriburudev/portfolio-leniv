@@ -1,96 +1,107 @@
-import { Link, useParams } from 'react-router-dom';
-import { useProject } from '../hooks/useProject';
-import ProjectDetailSkeleton from '../components/ProjectDetailSkeleton';
-import ExternalApiDemo from '../components/ExternalApiDemo';
-import LogoutButton from '../components/LogoutButton';
+import { useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { supabase } from '../lib/supabase'
+import { btnPrimary } from '../lib/ui'
+import { useProject } from '../hooks/useProject'
+import ExternalApiDemo from '../components/ExternalApiDemo'
+import LogoutButton from '../components/LogoutButton'
+import ProjectDetailSkeleton from '../components/ProjectDetailSkeleton'
 
-export default function ProjectDetail() {
-  const { id } = useParams<{ id: string }>();
-  const { project, loading, error } = useProject(id);
+export default function ProjectDetailPage() {
+  const { id } = useParams<{ id: string }>()
+  const { signOut } = useAuth()
+  const { project, loading, error } = useProject(id)
+
+  // Verifica el JWT contra el servidor; si es inválido, cierra sesión y el guard redirige al login.
+  useEffect(() => {
+    supabase.auth.getUser().then(({ error: authError }) => {
+      if (authError && (authError.status === 401 || authError.status === 403)) {
+        void signOut()
+      }
+    })
+  }, [signOut])
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-4 py-5">
-        <Link to="/work" className="text-sm text-zinc-400 hover:text-white" aria-label="Volver a la lista de proyectos">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between gap-4">
+        <Link to="/" aria-label="Volver al inicio" className="text-sm font-medium text-text-secondary hover:text-text-primary">
           ← Volver a proyectos
         </Link>
         <LogoutButton />
-      </header>
+      </div>
 
-      <main className="mx-auto max-w-5xl space-y-8 px-4 pb-16">
-        {loading && <ProjectDetailSkeleton />}
+      {loading && <ProjectDetailSkeleton />}
 
-        {error && !loading && (
-          <div role="alert" className="rounded-2xl border border-red-400/30 bg-red-500/10 p-6">
-            <p className="font-medium text-red-100">{error}</p>
-            <Link to="/work" className="mt-3 inline-block text-sm text-red-200 underline">
-              Ver todos los proyectos
-            </Link>
+      {error && !loading && (
+        <div role="alert" className="rounded-2xl border border-warning/30 bg-warning/10 p-6">
+          <p className="font-semibold text-warning">{error}</p>
+          <Link to="/" className="mt-3 inline-block text-sm text-text-secondary underline hover:text-text-primary">
+            Volver al inicio
+          </Link>
+        </div>
+      )}
+
+      {project && !loading && (
+        <>
+          <header>
+            <h1 className="font-display text-3xl font-bold text-text-primary sm:text-4xl">{project.title}</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text-secondary">{project.description}</p>
+          </header>
+
+          <section aria-label="Demo del proyecto" className="overflow-hidden rounded-2xl border border-default bg-surface">
+            {project.demoUrl ? (
+              <iframe
+                src={project.demoUrl}
+                title={`Demo de ${project.title}`}
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                className="aspect-video w-full"
+              />
+            ) : (
+              <div className="grid aspect-video place-items-center text-sm text-text-tertiary">
+                Este proyecto todavía no tiene una demo publicada.
+              </div>
+            )}
+          </section>
+
+          <section aria-labelledby="tech-title">
+            <h2 id="tech-title" className="mb-3 font-display text-lg font-bold text-text-primary">Tecnologías</h2>
+            <ul className="flex flex-wrap gap-1.5 font-mono text-xs text-text-secondary">
+              {project.technologies.map((technology) => (
+                <li key={technology} className="rounded border border-subtle bg-elevated px-2 py-1">{technology}</li>
+              ))}
+            </ul>
+          </section>
+
+          <div className="flex flex-wrap gap-3">
+            {project.repoUrl && (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Ver el código de ${project.title} en GitHub`}
+                className="inline-flex min-h-10 items-center rounded-md border border-default bg-surface-hover px-4 py-2 text-xs font-semibold text-text-primary hover:bg-elevated"
+              >
+                Ver en GitHub
+              </a>
+            )}
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Abrir la demo de ${project.title} en una pestaña nueva`}
+                className={btnPrimary}
+              >
+                Abrir demo en pestaña nueva
+              </a>
+            )}
           </div>
-        )}
 
-        {project && !loading && (
-          <>
-            <div>
-              <h1 className="text-3xl font-semibold md:text-4xl">{project.titulo}</h1>
-              <p className="mt-3 max-w-2xl text-zinc-400">{project.descripcion}</p>
-            </div>
-
-            {/* Contenedor principal de la demo (iframe/video) */}
-            <section aria-label="Demo del proyecto" className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900">
-              {project.demo_url ? (
-                <iframe
-                  src={project.demo_url}
-                  title={`Demo de ${project.titulo}`}
-                  loading="lazy"
-                  className="aspect-video w-full"
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                />
-              ) : (
-                <div className="grid aspect-video place-items-center text-zinc-500">
-                  Este proyecto todavía no tiene demo.
-                </div>
-              )}
-            </section>
-
-            <section aria-labelledby="tech-title">
-              <h2 id="tech-title" className="mb-3 text-lg font-semibold">Tecnologías</h2>
-              <ul className="flex flex-wrap gap-2">
-                {project.tags_tecnologias.map((t) => (
-                  <li key={t} className="rounded-full bg-white/10 px-3 py-1 text-sm">{t}</li>
-                ))}
-              </ul>
-            </section>
-
-            <div className="flex flex-wrap gap-3">
-              {project.repo_url && (
-                <a
-                  href={project.repo_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Ver el código de ${project.titulo} en GitHub`}
-                  className="rounded-lg border border-white/10 px-4 py-2 hover:bg-white/10"
-                >
-                  Ver en GitHub
-                </a>
-              )}
-              {project.demo_url && (
-                <a
-                  href={project.demo_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Abrir la demo de ${project.titulo} en una pestaña nueva`}
-                  className="rounded-lg bg-emerald-400 px-4 py-2 font-medium text-zinc-950 hover:bg-emerald-300"
-                >
-                  Abrir demo en pestaña nueva
-                </a>
-              )}
-            </div>
-
-            <ExternalApiDemo />
-          </>
-        )}
-      </main>
+          <ExternalApiDemo />
+        </>
+      )}
     </div>
-  );
+  )
 }
