@@ -122,11 +122,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return
         }
 
+        const rawRole = (data.role || 'user').toString().trim().toLowerCase()
+        const normalizedRole: Role = rawRole === 'admin' ? 'admin' : rawRole === 'operator' ? 'operator' : 'user'
+
         setProfile({
           id: data.id,
           nombre: data.nombre,
           email: data.email,
-          role: data.role as Role,
+          role: normalizedRole,
           estado_activo: data.estado_activo,
           fecha_registro: data.fecha_registro,
           updated_at: data.updated_at,

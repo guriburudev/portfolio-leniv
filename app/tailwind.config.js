@@ -20,6 +20,10 @@ export default {
           surface: 'var(--accent-surface)',
           'surface-hover': 'var(--accent-surface-hover)',
         },
+        cyan: {
+          DEFAULT: 'var(--accent-cyan)',
+          surface: 'var(--cyan-surface)',
+        },
         text: {
           primary: 'var(--text-primary)',
           secondary: 'var(--text-secondary)',

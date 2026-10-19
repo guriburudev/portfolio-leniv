@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
@@ -35,10 +35,34 @@ export default function App() {
         <div className="absolute right-[-10%] top-[45%] h-[500px] w-[500px] rounded-full bg-accent-surface blur-[160px]" />
         <div className="bg-grid-pattern absolute inset-0" />
       </div>
-      <Navbar theme={theme} onThemeChange={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} />
-      <main className="relative z-10 mx-auto w-full max-w-6xl flex-grow px-4 pb-20 pt-32 sm:px-6">
-        <Routes>
-          {/* Página principal (la de siempre) */}
+
+      <Routes>
+        {/* Requiere rol admin: Renderiza su propio layout de pantalla completa sin el Navbar/Footer estándar */}
+        <Route element={<RequireAdmin />}>
+          <Route
+            path="/admin"
+            element={
+              <AdminPage
+                theme={theme}
+                onThemeChange={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')}
+              />
+            }
+          />
+        </Route>
+
+        {/* Layout estándar para el resto de rutas */}
+        <Route
+          element={
+            <>
+              <Navbar theme={theme} onThemeChange={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} />
+              <main className="relative z-10 mx-auto w-full max-w-6xl flex-grow px-4 pb-20 pt-32 sm:px-6">
+                <Outlet />
+              </main>
+              <Footer />
+            </>
+          }
+        >
+          {/* Página principal */}
           <Route
             path="/"
             element={
@@ -62,15 +86,9 @@ export default function App() {
             <Route path="/work/:id" element={<ProjectDetailPage />} />
           </Route>
 
-          {/* Requiere rol admin */}
-          <Route element={<RequireAdmin />}>
-            <Route path="/admin" element={<AdminPage />} />
-          </Route>
-
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-      <Footer />
+        </Route>
+      </Routes>
     </div>
   )
 }

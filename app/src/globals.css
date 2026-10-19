@@ -36,25 +36,54 @@
   --shadow-glow-strong: 0 0 50px rgba(0,85,255,0.35);
 }
 
-/* Valores de color para el modo oscuro, activo por defecto. */
+/* Valores de color para el modo oscuro según manual y diseño Stitch. */
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg-canvas: #0a0c10; --bg-surface: #11141c; --bg-surface-hover: #161a25;
-  --bg-elevated: #1a1f2e; --bg-overlay: rgba(10,12,16,0.85);
-  --border-subtle: rgba(255,255,255,0.08); --border-default: rgba(255,255,255,0.14);
-  --border-strong: rgba(255,255,255,0.22); --border-focus: #0055ff;
-  --accent-primary: #0055ff; --accent-hover: #1a66ff; --accent-primary-hover: var(--accent-hover);
-  --accent-primary-active: #0044cc; --accent-glow: #0040cc;
-  --accent-surface: rgba(0,85,255,0.12); --accent-surface-hover: rgba(0,85,255,0.20);
-  --text-primary: #ffffff; --text-secondary: #94a3b8; --text-tertiary: #64748b;
-  --text-disabled: #334155; --text-inverse: #0a0c10; --text-on-accent: #ffffff;
-  --state-success: #22c55e; --state-warning: #f59e0b; --state-error: #ef4444; --state-info: #3b82f6;
-  --code-bg: #0d1017; --code-border: rgba(255,255,255,0.08);
-  --code-keyword: #ff7b72; --code-string: #a5d6ff; --code-comment: #8b949e;
-  --code-function: #d2a8ff; --code-number: #79c0ff; --code-variable: #ffa657;
-  --doc-bg: #0d0f14; --doc-surface: #12151d; --doc-heading: #e2e8f0;
-  --doc-text: #94a3b8; --doc-accent: #0055ff; --doc-border: rgba(255,255,255,0.08);
-  --grid-line: rgba(255,255,255,0.03);
+  --bg-canvas: #0b1120;
+  --bg-surface: #111827;
+  --bg-surface-hover: #162032;
+  --bg-elevated: #162032;
+  --bg-overlay: rgba(11, 17, 32, 0.88);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-focus: #38bdf8;
+  --accent-primary: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-primary-hover: #1d4ed8;
+  --accent-primary-active: #1e40af;
+  --accent-glow: #2563eb;
+  --accent-surface: rgba(37, 99, 235, 0.12);
+  --accent-surface-hover: rgba(37, 99, 235, 0.22);
+  --accent-cyan: #38bdf8;
+  --cyan-surface: rgba(56, 189, 248, 0.10);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-disabled: #334155;
+  --text-inverse: #0b1120;
+  --text-on-accent: #ffffff;
+  --state-success: #10b981;
+  --state-warning: #f59e0b;
+  --state-error: #ef4444;
+  --state-info: #38bdf8;
+  --code-bg: #0d121f;
+  --code-border: rgba(255, 255, 255, 0.08);
+  --code-keyword: #38bdf8;
+  --code-string: #93c5fd;
+  --code-comment: #64748b;
+  --code-function: #60a5fa;
+  --code-number: #38bdf8;
+  --code-variable: #f8fafc;
+  --doc-bg: #0b1120;
+  --doc-surface: #111827;
+  --doc-heading: #f8fafc;
+  --doc-text: #94a3b8;
+  --doc-accent: #38bdf8;
+  --doc-border: rgba(255, 255, 255, 0.08);
+  --grid-line: rgba(56, 189, 248, 0.035);
+  --shadow-glow-primary: 0 0 30px rgba(37, 99, 235, 0.2);
+  --shadow-glow-strong: 0 0 50px rgba(37, 99, 235, 0.35);
 }
 
 /* Valores alternativos del manual para el modo claro. */
@@ -67,6 +96,7 @@
   --accent-primary: #ff5500; --accent-hover: #e04b00; --accent-primary-hover: var(--accent-hover);
   --accent-primary-active: #cc4400; --accent-glow: #ff6b1a;
   --accent-surface: rgba(255,85,0,0.10); --accent-surface-hover: rgba(255,85,0,0.18);
+  --accent-cyan: #ff5500; --cyan-surface: rgba(255,85,0,0.10);
   --text-primary: #0f172a; --text-secondary: #475569; --text-tertiary: #64748b;
   --text-disabled: #cbd5e1; --text-inverse: #ffffff; --text-on-accent: #ffffff;
   --state-success: #16a34a; --state-warning: #d97706; --state-error: #dc2626; --state-info: #2563eb;
