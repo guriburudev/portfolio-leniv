@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-// ⚠️ Ajustar si la tabla de proyectos de Sebastián (HU04) se llama distinto.
-const PROJECTS_TABLE = 'projects'
+const PROJECTS_TABLE = 'active_projects'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -30,7 +29,8 @@ function toProject(row: Record<string, unknown>): ProjectDetail {
   }
 }
 
-// ⚠️ MOCK TEMPORAL PARA PRUEBAS DE MAQUETADO (HU05)
+// MOCK TEMPORAL PARA PRUEBAS DE MAQUETADO (HU05)
+// Para probar localmente: http://localhost:5173/work/8a96b2ea-13f0-4fee-b71a-957aa66acdcc
 // Para volver al comportamiento estricto con la base de datos, cambia este valor a false.
 const ENABLE_MOCK_FALLBACK = true
 
