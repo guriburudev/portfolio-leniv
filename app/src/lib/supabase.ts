@@ -1,8 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
-console.log('SUPABASE URL:', import.meta.env.VITE_SUPABASE_URL)
 
-const url ="https://nfjcbrkaerublzfsbwwa.supabase.co"
-const anonKey ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mamNicmthZXJ1Ymx6ZnNid3dhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MTc0MTk2MiwiZXhwIjoyMTA3MzE3OTYyfQ.x_5aEO4lHcRgdzQhI4J5m2EmcnmIP7MgNAO1pbpVthw"
+const url = import.meta.env.VITE_SUPABASE_URL as string | undefined
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 
 export const isSupabaseConfigured = Boolean(url && anonKey)
 
