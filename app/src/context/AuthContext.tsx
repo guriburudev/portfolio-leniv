@@ -2,42 +2,36 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
-import type { Role } from '../lib/types'
+import type { Role, UserProfile } from '../lib/types'
 
-// ⚠️ Ajustar si la tabla de roles de tu compañero se llama distinto.
-// Se espera una tabla con: id (uuid del usuario), role ('user' | 'admin')
-// y, opcionalmente, email y full_name.
-const PROFILES_TABLE = 'profiles'
+// Nombre de la tabla pública en Supabase
+const USERS_TABLE = 'users'
 
-// Duración máxima de una sesión desde el último inicio de sesión con contraseña.
+// Duración máxima de la sesión (24 horas)
 export const SESSION_MAX_MS = 24 * 60 * 60 * 1000
 
 export const INVALID_CREDENTIALS = 'Credenciales inválidas'
+const ACCOUNT_INACTIVE = 'Esta cuenta se encuentra suspendida o dada de baja.'
 const GENERIC_LOGIN_ERROR = 'No pudimos iniciar sesión. Intentá de nuevo en unos minutos.'
 const RATE_LIMIT_ERROR = 'Demasiados intentos. Esperá unos minutos antes de volver a probar.'
 const GENERIC_REGISTER_ERROR =
   'No pudimos completar el registro. Verificá los datos e intentá de nuevo.'
 
-export interface Profile {
-  id: string
-  email: string | null
-  fullName: string | null
-  role: Role
-}
-
 interface SignUpArgs {
   name: string
   email: string
   password: string
-  projectId: string | null
+  projectId?: string | null
 }
 
 interface AuthContextValue {
   session: Session | null
   user: User | null
-  profile: Profile | null
+  profile: UserProfile | null
   role: Role | null
   isAdmin: boolean
+  isOperator: boolean
+  isStaff: boolean // true si es admin u operator (para acceso al Dashboard)
   loading: boolean
   signIn: (args: { email: string; password: string }) => Promise<{ error: string | null }>
   signUp: (args: SignUpArgs) => Promise<{ error: string | null; needsConfirmation: boolean }>
@@ -54,10 +48,10 @@ function isExpired(session: Session | null): boolean {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
+  const [profile, setProfile] = useState<UserProfile | null>(null)
   const [initialized, setInitialized] = useState(false)
 
-  // 1) Sesión actual + suscripción a cambios (login, logout, refresh de token)
+  // 1) Sesión actual + suscripción a cambios de Supabase Auth
   useEffect(() => {
     let active = true
 
@@ -68,7 +62,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => {
-      // No hacer llamadas a supabase dentro de este callback (puede bloquearse).
       setSession(next ?? null)
       if (!next) setProfile(null)
     })
@@ -79,7 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  // 2) Expiración de 24 h: se verifica al cargar y cada minuto.
+  // 2) Control de expiración periódica (24h)
   useEffect(() => {
     if (!session) return undefined
     const check = () => {
@@ -90,46 +83,89 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => window.clearInterval(id)
   }, [session])
 
-  // 3) Perfil (rol) del usuario autenticado.
+  // Obtención del perfil y rol desde la tabla 'users'
   const userId = session?.user?.id ?? null
-  const userEmail = session?.user?.email ?? null
-  const metaName = (session?.user?.user_metadata?.full_name as string | undefined) ?? null
+  const userEmail = session?.user?.email ?? ''
 
   useEffect(() => {
-    if (!userId) return undefined
+    if (!userId) {
+      setProfile(null)
+      return undefined
+    }
+
     let active = true
 
     supabase
-      .from(PROFILES_TABLE)
+      .from(USERS_TABLE)
       .select('*')
       .eq('id', userId)
       .maybeSingle()
-      .then(({ data }) => {
+      .then(({ data, error }) => {
         if (!active) return
-        // Si la lectura falla o no hay fila, se cae al rol de menor privilegio.
-        const row = (data ?? {}) as Record<string, unknown>
+
+        if (error || !data) {
+          // Fallback seguro a rol base
+          setProfile({
+            id: userId,
+            nombre: (session?.user?.user_metadata?.nombre as string) || userEmail.split('@')[0],
+            email: userEmail,
+            role: 'user',
+            estado_activo: true,
+            fecha_registro: new Date().toISOString(),
+          })
+          return
+        }
+
+        // Si la cuenta fue desactivada por un admin, forzar deslogueo
+        if (!data.estado_activo || data.deleted_at) {
+          void supabase.auth.signOut()
+          return
+        }
+
         setProfile({
-          id: userId,
-          email: (row.email as string | undefined) ?? userEmail,
-          fullName: (row.full_name as string | undefined) ?? metaName,
-          role: row.role === 'admin' ? 'admin' : 'user',
+          id: data.id,
+          nombre: data.nombre,
+          email: data.email,
+          role: data.role as Role,
+          estado_activo: data.estado_activo,
+          fecha_registro: data.fecha_registro,
+          updated_at: data.updated_at,
+          deleted_at: data.deleted_at,
         })
       })
 
     return () => {
       active = false
     }
-  }, [userId, userEmail, metaName])
+  }, [userId, userEmail, session?.user?.user_metadata?.nombre])
 
   const signIn = useCallback<AuthContextValue['signIn']>(async ({ email, password }) => {
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password })
-    if (!error) return { error: null }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    })
 
-    if (error.status === 429) return { error: RATE_LIMIT_ERROR }
-    if (!error.status || error.status >= 500) return { error: GENERIC_LOGIN_ERROR }
-    // Contraseña incorrecta, correo inexistente o correo sin confirmar:
-    // siempre el mismo mensaje, para no permitir enumeración de usuarios.
-    return { error: INVALID_CREDENTIALS }
+    if (error) {
+      if (error.status === 429) return { error: RATE_LIMIT_ERROR }
+      if (!error.status || error.status >= 500) return { error: GENERIC_LOGIN_ERROR }
+      return { error: INVALID_CREDENTIALS }
+    }
+
+    // Verificar si el usuario está activo antes de dejarlo continuar
+    if (data.user) {
+      const { data: userRow } = await supabase
+        .from(USERS_TABLE)
+        .select('estado_activo, deleted_at')
+        .eq('id', data.user.id)
+        .single()
+
+      if (userRow && (!userRow.estado_activo || userRow.deleted_at)) {
+        await supabase.auth.signOut()
+        return { error: ACCOUNT_INACTIVE }
+      }
+    }
+
+    return { error: null }
   }, [])
 
   const signUp = useCallback<AuthContextValue['signUp']>(
@@ -137,18 +173,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const redirectTo = `${window.location.origin}/login${
         projectId ? `?project=${encodeURIComponent(projectId)}` : ''
       }`
+
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),
         password,
-        options: { data: { full_name: name.trim() }, emailRedirectTo: redirectTo },
+        options: {
+          data: {
+            nombre: name.trim(), // Se sincroniza con trigger a public.users.nombre
+            role: 'user',
+          },
+          emailRedirectTo: redirectTo,
+        },
       })
+
       if (error) {
         if (error.status === 429) return { error: RATE_LIMIT_ERROR, needsConfirmation: false }
         return { error: GENERIC_REGISTER_ERROR, needsConfirmation: false }
       }
-      // Con confirmación de correo activa, un email ya registrado devuelve un
-      // usuario "ofuscado" y NO un error: se muestra el mismo mensaje que en un
-      // registro nuevo para no revelar si la cuenta existe.
+
       return { error: null, needsConfirmation: !data.session }
     },
     [],
@@ -160,12 +202,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<AuthContextValue>(() => {
     const profileReady = Boolean(profile) && profile?.id === userId
+    const currentRole = profileReady ? (profile?.role ?? null) : null
+
     return {
       session,
       user: session?.user ?? null,
       profile: profileReady ? profile : null,
-      role: profileReady ? (profile?.role ?? null) : null,
-      isAdmin: profileReady && profile?.role === 'admin',
+      role: currentRole,
+      isAdmin: currentRole === 'admin',
+      isOperator: currentRole === 'operator',
+      isStaff: currentRole === 'admin' || currentRole === 'operator',
       loading: !initialized || (Boolean(session) && !profileReady),
       signIn,
       signUp,
