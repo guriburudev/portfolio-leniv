@@ -5,14 +5,12 @@ import Field from '../components/Field'
 import { useAuth } from '../context/AuthContext'
 import { validateLogin } from '../lib/validation'
 import type { FormErrors } from '../lib/validation'
-import { authPath, getPendingProjectId, getPostLoginPath } from '../lib/redirect'
+import { authPath, getPendingProjectId } from '../lib/redirect'
 import { btnLarge, btnPrimary, card } from '../lib/ui'
 
-import { supabase } from '../lib/supabase';
-
 export default function LoginPage() {
+
   const { signIn, role } = useAuth()
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const projectId = getPendingProjectId(searchParams)
 
