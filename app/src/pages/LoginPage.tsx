@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Field from '../components/Field'
 import { useAuth } from '../context/AuthContext'
 import { validateLogin } from '../lib/validation'
 import type { FormErrors } from '../lib/validation'
-import { authPath, getPendingProjectId } from '../lib/redirect'
+import { authPath, getPendingProjectId, getPostLoginPath } from '../lib/redirect'
 import { btnLarge, btnPrimary, card } from '../lib/ui'
 
+import { supabase } from '../lib/supabase';
+
 export default function LoginPage() {
-  const { signIn } = useAuth()
+  const { signIn, role } = useAuth()
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const projectId = getPendingProjectId(searchParams)
 
@@ -30,15 +33,14 @@ export default function LoginPage() {
 
     setSubmitting(true)
     const { error } = await signIn(values)
+
     if (error) {
       setFormError(error)
       setSubmitting(false)
-      // La contraseña no se conserva tras un intento fallido.
       setValues((v) => ({ ...v, password: '' }))
+      return
     }
-    // Si fue exitoso, GuestOnly detecta la sesión y redirige según rol / proyecto.
   }
-
   return (
     <div className="mx-auto max-w-md">
       <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-text-primary">

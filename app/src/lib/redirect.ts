@@ -15,12 +15,8 @@ export function getPendingProjectId(params: URLSearchParams): string | null {
   return sanitizeProjectId(params.get(PROJECT_PARAM))
 }
 
-// A dónde va el usuario después de autenticarse:
-//   1. Admin             -> /admin (siempre tiene prioridad)
-//   2. Proyecto guardado -> /work/<id>
-//   3. Caso contrario    -> / (inicio)
 export function getPostLoginPath(args: { role: Role | null; projectId: string | null }): string {
-  if (args.role === 'admin') return '/admin'
+  if (args.role === 'admin' || args.role === 'operator') return '/admin'
   if (args.projectId) return `/work/${args.projectId}`
   return '/'
 }
