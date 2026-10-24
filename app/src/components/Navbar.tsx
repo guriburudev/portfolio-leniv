@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -21,11 +22,41 @@ const authLink =
 // La barra conserva el control de tema que se conecta a los tokens globales.
 export default function Navbar({ theme, onThemeChange }: NavbarProps) {
   const { session, isAdmin, signOut } = useAuth()
+  const [activeSection, setActiveSection] = useState('inicio')
+
+  useEffect(() => {
+    const sections = links
+      .map(({ href }) => document.getElementById(href.split('#')[1]))
+      .filter((section): section is HTMLElement => section !== null)
+
+    if (!sections.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSections = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+
+        if (visibleSections[0]) {
+          const nextSection = visibleSections[0].target.id
+          setActiveSection((currentSection) => currentSection === nextSection ? currentSection : nextSection)
+        }
+      },
+      { rootMargin: '-25% 0px -55% 0px', threshold: [0, 0.15, 0.35, 0.6] },
+    )
+
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
+  const handleSectionClick = (section: string) => setActiveSection(section)
+  const sectionLinkClass = (section: string) =>
+    `rounded-md border px-3 py-1.5 text-xs font-medium transition-all duration-500 ease-in-out ${activeSection === section ? 'border-accent/30 bg-accent-surface text-text-primary' : 'border-transparent text-text-secondary hover:bg-surface hover:text-text-primary'}`
 
   return (
     <header className="fixed inset-x-4 top-4 z-50 mx-auto max-w-6xl sm:inset-x-6">
       <nav aria-label="Navegación principal" className="relative rounded-xl border border-default bg-overlay px-4 py-3 shadow-lg backdrop-blur-xl sm:px-5">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <a aria-label="Alex Dev, ir al inicio" className="flex shrink-0 items-center gap-2.5" href="/#inicio">
             <span aria-hidden="true" className="grid size-10 place-items-center rounded-md bg-accent font-mono text-base font-bold text-text-on-accent">&lt;A/&gt;</span>
             <span className="flex flex-col">
@@ -34,9 +65,9 @@ export default function Navbar({ theme, onThemeChange }: NavbarProps) {
             </span>
           </a>
 
-          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-lg border border-subtle bg-surface-hover p-1 lg:flex">
-            {links.map((link, index) => (
-              <a key={link.href} className={`rounded-md border px-3 py-1.5 text-xs font-medium ${index === 0 ? 'border-accent/30 bg-accent-surface text-text-primary' : 'border-transparent text-text-secondary hover:bg-surface hover:text-text-primary'}`} href={link.href}>
+          <div className="order-3 flex w-full items-center justify-center gap-1 rounded-lg border border-subtle bg-surface-hover p-1 lg:order-none lg:w-auto">
+            {links.map((link) => (
+              <a key={link.href} aria-current={activeSection === link.href.split('#')[1] ? 'location' : undefined} className={sectionLinkClass(link.href.split('#')[1])} href={link.href} onClick={() => handleSectionClick(link.href.split('#')[1])}>
                 {link.label}
               </a>
             ))}
@@ -73,11 +104,6 @@ export default function Navbar({ theme, onThemeChange }: NavbarProps) {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-center gap-1 border-t border-subtle pt-2 lg:hidden">
-          {links.map((link) => (
-            <a key={link.href} className="rounded-md px-2.5 py-1.5 text-[11px] font-medium text-text-secondary hover:bg-surface-hover hover:text-text-primary" href={link.href}>{link.label}</a>
-          ))}
-        </div>
       </nav>
     </header>
   )

@@ -28,7 +28,7 @@ export default function App() {
   }, [theme])
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-canvas text-text-primary">
+    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-canvas text-text-primary transition-colors duration-500 ease-in-out">
       {/* Fondo ambiental estático y decorativo de las referencias visuales. */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute -top-[15%] left-1/2 h-[450px] w-[750px] -translate-x-1/2 rounded-full bg-accent-surface blur-[140px]" />

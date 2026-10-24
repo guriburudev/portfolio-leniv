@@ -295,9 +295,9 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
               </div>
 
               <div className="p-6 pt-0">
-                <button className="w-full py-2.5 px-4 rounded-xl bg-accent hover:bg-accent-hover text-white font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm shadow-accent/20 transition-all duration-200" type="button">
-                  <span>Abrir Bandeja Operativa</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button className="w-full py-2.5 px-4 rounded-xl bg-warning hover:bg-warning/80 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200" type="button">
+                  <span className="text-white dark:text-black">Abrir Bandeja Operativa</span>
+                  <svg className="w-4 h-4 text-white dark:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
                   </svg>
                 </button>
@@ -379,9 +379,9 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
               </div>
 
               <div className="p-6 pt-0">
-                <button className="w-full py-2.5 px-4 rounded-xl bg-accent hover:bg-accent-hover text-white font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm shadow-accent/20 transition-all duration-200" type="button">
-                  <span>Gestionar Cuentas de Acceso</span>
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button className="w-full py-2.5 px-4 rounded-xl bg-cyan hover:bg-cyan/80 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200" type="button">
+                  <span className="text-white dark:text-black">Gestionar Cuentas de Acceso</span>
+                  <svg className="w-4 h-4 text-white dark:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
                   </svg>
                 </button>
@@ -460,9 +460,9 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
               </div>
 
               <div className="p-6 pt-0">
-                <button className="w-full py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm shadow-purple-600/30 hover:shadow transition-all duration-200" type="button">
-                  <span>Abrir Editor de Proyectos (CRUD)</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button className="w-full py-2.5 px-4 rounded-xl bg-purple-500 hover:bg-purple-400 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm shadow-purple-600/30 hover:shadow transition-all duration-200" type="button">
+                  <span className="text-white dark:text-black">Abrir Editor de Proyectos (CRUD)</span>
+                  <svg className="w-4 h-4 text-white dark:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
                   </svg>
                 </button>
