@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import AdminPage from './pages/AdminPage'
+import AdminProjectsPage from './pages/AdminProjectsPage'
 
 import ContactSection from './components/Contact/ContactSection'
 
@@ -24,6 +25,8 @@ export default function App() {
   // Aplicamos el atributo que activa los tokens del tema y guardamos la preferencia localmente.
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
+    // Sincroniza la clase de Tailwind con el atributo de tema para habilitar dark:*.
+    document.documentElement.classList.toggle('dark', theme === 'dark')
     window.localStorage.setItem('portfolio-theme', theme)
   }, [theme])
 
@@ -48,6 +51,7 @@ export default function App() {
               />
             }
           />
+          <Route path="/admin/projects" element={<AdminProjectsPage />} />
         </Route>
 
         {/* Layout estándar para el resto de rutas */}

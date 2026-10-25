@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import Field from '../components/Field'
 import { useAuth } from '../context/AuthContext'
 import { validateLogin } from '../lib/validation'
@@ -10,7 +10,7 @@ import { btnLarge, btnPrimary, card } from '../lib/ui'
 
 export default function LoginPage() {
 
-  const { signIn, role } = useAuth()
+  const { signIn } = useAuth()
   const [searchParams] = useSearchParams()
   const projectId = getPendingProjectId(searchParams)
 
