@@ -4,8 +4,6 @@ import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabase'
 import { btnPrimary } from '../lib/ui'
 import { useProject } from '../hooks/useProject'
-import ExternalApiDemo from '../components/ExternalApiDemo'
-import LogoutButton from '../components/LogoutButton'
 import ProjectDetailSkeleton from '../components/ProjectDetailSkeleton'
 
 export default function ProjectDetailPage() {
@@ -13,7 +11,10 @@ export default function ProjectDetailPage() {
   const { signOut } = useAuth()
   const { project, loading, error } = useProject(id)
 
-  // Verifica el JWT contra el servidor; si es inválido, cierra sesión y el guard redirige al login.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   useEffect(() => {
     supabase.auth.getUser().then(({ error: authError }) => {
       if (authError && (authError.status === 401 || authError.status === 403)) {
@@ -22,13 +23,27 @@ export default function ProjectDetailPage() {
     })
   }, [signOut])
 
+  const isVideoUrl = (url: string | null | undefined): boolean => {
+    if (!url) return false
+    return (
+      url.endsWith('.mp4') ||
+      url.endsWith('.webm') ||
+      url.endsWith('.ogg') ||
+      url.includes('blob:') ||
+      url.includes('/video/')
+    )
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between gap-4">
-        <Link to="/" aria-label="Volver al inicio" className="text-sm font-medium text-text-secondary hover:text-text-primary">
+        <Link
+          to="/"
+          aria-label="Volver al inicio"
+          className="text-sm font-medium text-text-secondary hover:text-text-primary"
+        >
           ← Volver a proyectos
         </Link>
-        <LogoutButton />
       </div>
 
       {loading && <ProjectDetailSkeleton />}
@@ -51,13 +66,24 @@ export default function ProjectDetailPage() {
 
           <section aria-label="Demo del proyecto" className="overflow-hidden rounded-2xl border border-default bg-surface">
             {project.demoUrl ? (
-              <iframe
-                src={project.demoUrl}
-                title={`Demo de ${project.title}`}
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                className="aspect-video w-full"
-              />
+              isVideoUrl(project.demoUrl) ? (
+                <video
+                  src={project.demoUrl}
+                  controls
+                  autoPlay
+                  loop
+                  muted
+                  className="aspect-video h-full w-full object-cover"
+                />
+              ) : (
+                <iframe
+                  src={project.demoUrl}
+                  title={`Demo de ${project.title}`}
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                  className="aspect-video h-full w-full border-0"
+                />
+              )
             ) : (
               <div className="grid aspect-video place-items-center text-sm text-text-tertiary">
                 Este proyecto todavía no tiene una demo publicada.
@@ -98,8 +124,6 @@ export default function ProjectDetailPage() {
               </a>
             )}
           </div>
-
-          <ExternalApiDemo />
         </>
       )}
     </div>
