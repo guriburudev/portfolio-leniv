@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
+import TrafficMetricsSection from '../components/Metrics/TrafficMetricsSections'
+
 type AdminPageProps = {
   theme: 'dark' | 'light'
   onThemeChange: () => void
@@ -473,125 +475,7 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
         {/* END: BentoHubCardsSection */}
 
         {/* BEGIN: SystemLogsTelemetrySection */}
-        <section className="space-y-6" data-purpose="analytics-metrics-sprint3-section">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan/10 border border-cyan/20 text-cyan text-xs font-mono font-medium mb-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan animate-pulse" />
-                SPRINT 3 · HU11 &amp; HU12
-              </div>
-              <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">
-                <span className="text-cyan font-mono">#02</span> Métricas &amp; Gráficos de Tráfico
-              </h2>
-              <p className="text-xs text-text-tertiary font-mono mt-0.5">
-                Espacio reservado para contadores independientes (visitas públicas vs logins de usuarios) y visualizaciones analíticas con Chart.js / Recharts.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 self-start sm:self-auto">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-amber-500/10 border border-amber-500/20 text-amber-500 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-amber-500" />
-                Pendiente de implementación en Sprint 3 (22 - 25 Oct)
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Visualización 1 */}
-            <div className="rounded-2xl bg-surface border border-border p-6 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-cyan/50 transition-all">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-cyan/10 border border-cyan/20 text-cyan">
-                      HU11 · CONTADORES INDEPENDIENTES
-                    </span>
-                    <h3 className="text-base font-bold text-text-primary">Evolución de Tráfico &amp; Sesiones (Público vs Auth)</h3>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-elevated text-text-secondary border border-border">Telemetry v2</span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 pt-1">
-                  <div className="p-3 rounded-lg bg-elevated border border-border">
-                    <div className="text-[10px] font-mono uppercase text-text-tertiary">Visitas Portfolio</div>
-                    <div className="text-xl font-extrabold text-text-primary mt-1">1,420 <span className="text-[10px] text-emerald-400 font-normal">+18%</span></div>
-                    <div className="text-[9px] font-mono text-text-tertiary mt-0.5">Contador anónimo Redis</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-elevated border border-border">
-                    <div className="text-[10px] font-mono uppercase text-text-tertiary">Sesiones Reclutadores</div>
-                    <div className="text-xl font-extrabold text-cyan mt-1">148 <span className="text-[10px] text-cyan font-normal">JWT act</span></div>
-                    <div className="text-[9px] font-mono text-text-tertiary mt-0.5">Logins validados DB</div>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-elevated border border-dashed border-border flex flex-col items-center justify-center space-y-3 min-h-[170px]">
-                  <div className="w-full flex items-end justify-between gap-2 h-24 px-4 pt-4 border-b border-border">
-                    <div className="w-full bg-border-strong rounded-t h-[35%]" />
-                    <div className="w-full bg-cyan/30 rounded-t h-[55%]" />
-                    <div className="w-full bg-border-strong rounded-t h-[45%]" />
-                    <div className="w-full bg-cyan/50 rounded-t h-[75%]" />
-                    <div className="w-full bg-border-strong rounded-t h-[60%]" />
-                    <div className="w-full bg-cyan rounded-t h-[90%]" />
-                    <div className="w-full bg-accent rounded-t h-[70%]" />
-                  </div>
-                  <div className="flex items-center justify-between w-full text-[10px] font-mono text-text-tertiary px-2">
-                    <span>Mockup Chart.js · 7 días</span>
-                    <div className="flex items-center gap-3">
-                      <span><span className="inline-block w-2 h-2 rounded-full bg-border-strong mr-1" />Público</span>
-                      <span><span className="inline-block w-2 h-2 rounded-full bg-cyan mr-1" />Autenticado</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-border-subtle flex items-center justify-between text-[11px] font-mono text-text-tertiary">
-                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-amber-500" />Blueprint de visualización temporal</span>
-                <span className="text-cyan font-semibold">Sprint 3 Ready</span>
-              </div>
-            </div>
-
-            {/* Visualización 2 */}
-            <div className="rounded-2xl bg-surface border border-border p-6 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-400/50 transition-all">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <span className="px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-purple-500/10 border border-purple-500/20 text-purple-400">
-                      HU12 · DASHBOARD DE GRÁFICOS
-                    </span>
-                    <h3 className="text-base font-bold text-text-primary">Distribución de Interacciones por Módulo</h3>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-elevated text-text-secondary border border-border">Recharts / Donut</span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-elevated border border-dashed border-border flex flex-col sm:flex-row items-center justify-around gap-4 min-h-[170px]">
-                  <div className="relative w-28 h-28 rounded-full border-8 border-accent flex items-center justify-center shrink-0">
-                    <div className="w-16 h-16 rounded-full border-4 border-cyan flex items-center justify-center">
-                      <div className="w-8 h-8 rounded-full bg-purple-500" />
-                    </div>
-                  </div>
-                  <div className="space-y-2 text-xs font-mono w-full sm:w-auto">
-                    <div className="flex items-center justify-between gap-4 p-1.5 rounded bg-surface border border-border">
-                      <span className="flex items-center gap-1.5 text-text-secondary"><span className="w-2 h-2 rounded-full bg-accent" />Mailing &amp; Consultas</span>
-                      <span className="font-bold text-text-primary">48%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4 p-1.5 rounded bg-surface border border-border">
-                      <span className="flex items-center gap-1.5 text-text-secondary"><span className="w-2 h-2 rounded-full bg-cyan" />Demos &amp; Auth JWT</span>
-                      <span className="font-bold text-text-primary">32%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-4 p-1.5 rounded bg-surface border border-border">
-                      <span className="flex items-center gap-1.5 text-text-secondary"><span className="w-2 h-2 rounded-full bg-purple-500" />Interacción Proyectos</span>
-                      <span className="font-bold text-text-primary">20%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-border-subtle flex items-center justify-between text-[11px] font-mono text-text-tertiary">
-                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-purple-400" />Segmentación interactiva modular</span>
-                <span className="text-purple-400 font-semibold">Sprint 3 Design Spec</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        <TrafficMetricsSection />
         {/* Consola Operativa y Telemetría */}
         <section className="rounded-2xl bg-surface border border-border p-6 space-y-4 shadow-sm" data-purpose="telemetry-logs-widget">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
