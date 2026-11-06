@@ -86,7 +86,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Obtención del perfil y rol desde la tabla 'users'
   const userId = session?.user?.id ?? null
   const userEmail = session?.user?.email ?? ''
-
+    useEffect(() => {
+    if (!userId) return undefined
+    const checkStillActive = async () => {
+      const { data } = await supabase
+        .from(USERS_TABLE)
+        .select('estado_activo, deleted_at')
+        .eq('id', userId)
+        .maybeSingle()
+      if (data && (!data.estado_activo || data.deleted_at)) void supabase.auth.signOut()
+    }
+    const id = window.setInterval(() => void checkStillActive(), 60 * 1000)
+    return () => window.clearInterval(id)
+  }, [userId])
   useEffect(() => {
     if (!userId) {
       setProfile(null)
@@ -149,6 +161,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
 
     if (error) {
+      if (error.code === 'user_banned') return { error: ACCOUNT_INACTIVE }
       if (error.status === 429) return { error: RATE_LIMIT_ERROR }
       if (!error.status || error.status >= 500) return { error: GENERIC_LOGIN_ERROR }
       return { error: INVALID_CREDENTIALS }

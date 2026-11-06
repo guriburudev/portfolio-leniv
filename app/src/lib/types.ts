@@ -10,7 +10,13 @@ export interface UserProfile {
   updated_at?: string;
   deleted_at?: string | null;
 }
-
+export interface AdminUser {
+  id: string;
+  nombre: string;
+  email: string;
+  fecha_registro: string;
+  estado_activo: boolean;
+}
 export interface ContactData {
   sender_name: string;
   sender_email: string;

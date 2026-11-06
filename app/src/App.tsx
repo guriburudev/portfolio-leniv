@@ -12,6 +12,7 @@ import RegisterPage from './pages/RegisterPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import AdminPage from './pages/AdminPage'
 import AdminProjectsPage from './pages/AdminProjectsPage'
+import AdminUsersPage from './pages/AdminUsersPage'
 
 import ContactSection from './components/Contact/ContactSection'
 
@@ -52,6 +53,7 @@ export default function App() {
             }
           />
           <Route path="/admin/projects" element={<AdminProjectsPage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
         </Route>
 
         {/* Layout estándar para el resto de rutas */}
