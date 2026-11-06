@@ -37,21 +37,21 @@ const OverviewKPIsSection = forwardRef<OverviewKPIsRef>((_, ref) => {
 
   if (loading || !kpis) {
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" data-purpose="kpi-metrics-grid">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" data-purpose="kpi-metrics-grid" data-reveal="">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="p-4 rounded-xl bg-surface border border-border animate-pulse h-28" />
+          <div key={i} className="motion-surface p-4 rounded-xl bg-surface border border-border animate-pulse h-28" />
         ))}
       </div>
     )
   }
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" data-purpose="kpi-metrics-grid">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" data-purpose="kpi-metrics-grid" data-reveal="">
       {/* KPI 1: MENSAJES NUEVOS */}
-      <div className="p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
+      <div className="motion-surface p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
         <div className="flex items-center justify-between text-text-secondary">
           <span className="text-xs font-mono uppercase tracking-wider font-semibold">Mensajes Nuevos</span>
-          <span className="p-1.5 rounded-md bg-amber-500/10 text-amber-500 border border-amber-500/20 text-xs font-mono font-bold">HU07</span>
+          <span className="p-1.5 rounded-md bg-amber-500/10 text-amber-500 border border-amber-500/20 text-xs font-mono font-bold">CONTACTO</span>
         </div>
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-2xl sm:text-3xl font-extrabold text-text-primary">{kpis.newMessages}</span>
@@ -67,10 +67,10 @@ const OverviewKPIsSection = forwardRef<OverviewKPIsRef>((_, ref) => {
       </div>
 
       {/* KPI 2: USUARIOS ACTIVOS */}
-      <div className="p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
+      <div className="motion-surface p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
         <div className="flex items-center justify-between text-text-secondary">
           <span className="text-xs font-mono uppercase tracking-wider font-semibold">Usuarios Activos</span>
-          <span className="p-1.5 rounded-md bg-cyan/10 text-cyan border border-cyan/20 text-xs font-mono font-bold">HU08</span>
+          <span className="p-1.5 rounded-md bg-cyan/10 text-cyan border border-cyan/20 text-xs font-mono font-bold">CUENTAS</span>
         </div>
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-2xl sm:text-3xl font-extrabold text-text-primary">{kpis.activeUsers}</span>
@@ -82,10 +82,10 @@ const OverviewKPIsSection = forwardRef<OverviewKPIsRef>((_, ref) => {
       </div>
 
       {/* KPI 3: PROYECTOS PUBLICADOS */}
-      <div className="p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
+      <div className="motion-surface p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
         <div className="flex items-center justify-between text-text-secondary">
           <span className="text-xs font-mono uppercase tracking-wider font-semibold">Proyectos Publicados</span>
-          <span className="p-1.5 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-mono font-bold">HU09/10</span>
+          <span className="p-1.5 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-mono font-bold">PROYECTOS</span>
         </div>
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-2xl sm:text-3xl font-extrabold text-text-primary">{kpis.publishedProjects}</span>
@@ -97,7 +97,7 @@ const OverviewKPIsSection = forwardRef<OverviewKPIsRef>((_, ref) => {
       </div>
 
       {/* KPI 4: HEALTH CHECK APIS*/}
-      <div className="p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
+      <div className="motion-surface p-4 rounded-xl bg-surface border border-border hover:border-border-strong transition-all flex flex-col justify-between shadow-sm">
         <div className="flex items-center justify-between text-text-secondary">
           <span className="text-xs font-mono uppercase tracking-wider font-semibold">Estado APIs / DB</span>
           <span className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono font-bold">HEALTH</span>

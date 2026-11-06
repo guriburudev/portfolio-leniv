@@ -24,7 +24,7 @@ const doneText: Record<UserAction, string> = {
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
 
-// Panel de gestión de usuarios registrados (HU08).
+// Panel de gestión de usuarios registrados.
 export default function AdminUsersPage() {
   const { profile } = useAuth()
   const [users, setUsers] = useState<AdminUser[]>([])
@@ -84,9 +84,9 @@ export default function AdminUsersPage() {
   return (
     <div className="min-h-screen bg-canvas px-4 py-8 text-text-primary sm:px-6">
       <main className="mx-auto max-w-6xl space-y-6">
-        <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-overlay p-5 shadow-lg backdrop-blur-xl sm:p-7">
+        <header className="motion-surface flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-overlay p-5 shadow-lg backdrop-blur-xl sm:p-7" data-reveal="">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-accent">Administración · HU08</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-accent">Administración · Cuentas</p>
             <h1 className="mt-2 font-display text-2xl font-bold sm:text-3xl">Usuarios registrados</h1>
             <p className="mt-2 text-sm text-text-secondary">Cuentas creadas para acceder a las demostraciones del portfolio.</p>
           </div>
@@ -96,7 +96,7 @@ export default function AdminUsersPage() {
           </div>
         </header>
 
-        <section className="overflow-hidden rounded-2xl border border-border bg-surface/90 shadow-lg backdrop-blur-xl" aria-labelledby="users-title">
+        <section className="motion-surface overflow-hidden rounded-2xl border border-border bg-surface/90 shadow-lg backdrop-blur-xl" aria-labelledby="users-title" data-reveal="">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border-subtle p-5 sm:p-6">
             <div>
               <h2 className="font-display text-xl font-bold" id="users-title">Cuentas de usuario</h2>
@@ -134,7 +134,7 @@ export default function AdminUsersPage() {
                 </thead>
                 <tbody className="divide-y divide-border-subtle">
                   {visibleUsers.map((user) => (
-                    <tr className="hover:bg-surface-hover" key={user.id}>
+                    <tr className="admin-list-row hover:bg-surface-hover" key={user.id}>
                       <td className="px-5 py-3 font-medium">{user.nombre}</td>
                       <td className="px-5 py-3 text-text-secondary">{user.email}</td>
                       <td className="px-5 py-3 text-text-secondary">{formatDate(user.fecha_registro)}</td>

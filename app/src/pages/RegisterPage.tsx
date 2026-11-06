@@ -47,8 +47,8 @@ export default function RegisterPage() {
 
   if (confirmationSent) {
     return (
-      <div className="mx-auto max-w-md">
-        <div className={`${card} p-6 text-center`} role="status">
+      <div className="mx-auto max-w-md" data-reveal="">
+        <div className={`motion-surface ${card} p-6 text-center`} role="status">
           <div className="mb-3 text-3xl" aria-hidden="true">
             ✉️
           </div>
@@ -68,7 +68,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="mx-auto max-w-md">
+    <div className="mx-auto max-w-md" data-reveal="">
       <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-text-primary">
         Crear cuenta
       </h1>
@@ -78,11 +78,11 @@ export default function RegisterPage() {
           : 'Registrate para acceder a las demos interactivas.'}
       </p>
 
-      <form onSubmit={onSubmit} noValidate className={`${card} space-y-4 p-6`}>
+      <form onSubmit={onSubmit} noValidate className={`motion-surface ${card} space-y-4 p-6`}>
         {formError && (
           <div
             role="alert"
-            className="rounded-md border border-red-500 px-4 py-3 text-[13px] font-medium text-red-500"
+            className="rounded-md border border-red-500 px-4 py-3 text-[13px] font-medium text-red-500" data-reveal=""
           >
             {formError}
           </div>

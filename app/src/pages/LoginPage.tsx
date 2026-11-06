@@ -40,7 +40,7 @@ export default function LoginPage() {
     }
   }
   return (
-    <div className="mx-auto max-w-md">
+    <div className="mx-auto max-w-md" data-reveal="">
       <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-text-primary">
         Iniciar sesión
       </h1>
@@ -50,11 +50,11 @@ export default function LoginPage() {
           : 'Accedé a las demos y al panel según tus permisos.'}
       </p>
 
-      <form onSubmit={onSubmit} noValidate className={`${card} space-y-4 p-6`}>
+      <form onSubmit={onSubmit} noValidate className={`motion-surface ${card} space-y-4 p-6`}>
         {formError && (
           <div
             role="alert"
-            className="rounded-md border border-red-500 px-4 py-3 text-[13px] font-medium text-red-500"
+            className="rounded-md border border-red-500 px-4 py-3 text-[13px] font-medium text-red-500" data-reveal=""
           >
             {formError}
           </div>

@@ -33,10 +33,10 @@ export default function App() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-clip bg-canvas text-text-primary transition-colors duration-500 ease-in-out">
-      {/* Fondo ambiental estático y decorativo de las referencias visuales. */}
+      {/* Fondo ambiental decorativo con movimiento CSS contenido en el viewport. */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -top-[15%] left-1/2 h-[450px] w-[750px] -translate-x-1/2 rounded-full bg-accent-surface blur-[140px]" />
-        <div className="absolute right-[-10%] top-[45%] h-[500px] w-[500px] rounded-full bg-accent-surface blur-[160px]" />
+        <div className="ambient-orb absolute -top-[15%] left-1/2 h-[450px] w-[min(750px,140vw)] -translate-x-1/2 rounded-full bg-accent-surface blur-[140px]" />
+        <div className="ambient-orb ambient-orb-delayed absolute right-[-10%] top-[45%] h-[min(500px,120vw)] w-[min(500px,120vw)] rounded-full bg-accent-surface blur-[160px]" />
         <div className="bg-grid-pattern absolute inset-0" />
       </div>
 

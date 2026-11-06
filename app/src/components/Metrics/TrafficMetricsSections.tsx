@@ -53,7 +53,7 @@ export default function TrafficMetricsSection() {
     activeModuleIndex !== null && stats ? stats.moduleDistribution[activeModuleIndex] : null
 
   return (
-    <section className="space-y-6" data-purpose="analytics-metrics-sprint3-section">
+    <section className="space-y-6" data-purpose="analytics-metrics-section" data-reveal="">
       {/* Encabezado y Selector de Rango de Fechas */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -102,7 +102,7 @@ export default function TrafficMetricsSection() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* VISTA 1: BARRAS PARAMETRIZADAS */}
-          <div className="rounded-2xl bg-surface border border-border p-6 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-cyan/50 transition-all">
+          <div className="motion-surface rounded-2xl bg-surface border border-border p-6 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-cyan/50 transition-all">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-bold text-text-primary">
@@ -218,7 +218,7 @@ export default function TrafficMetricsSection() {
           </div>
 
           {/* VISTA 2: DONUT PARAMETRIZADO */}
-          <div className="rounded-2xl bg-surface border border-border p-6 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-400/50 transition-all">
+          <div className="motion-surface rounded-2xl bg-surface border border-border p-6 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-400/50 transition-all">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-bold text-text-primary">
@@ -278,11 +278,16 @@ export default function TrafficMetricsSection() {
 
                 <div className="space-y-2 text-xs font-mono w-full sm:w-auto">
                   {stats.moduleDistribution.map((item, idx) => (
-                    <div
+                    <button
                       key={item.name}
-                      onMouseEnter={() => setActiveModuleIndex(idx)}
-                      onMouseLeave={() => setActiveModuleIndex(null)}
-                      className={`flex items-center justify-between gap-4 p-2.5 rounded-lg border transition-all cursor-pointer ${
+                      type="button"
+                      aria-pressed={activeModuleIndex === idx}
+                      onFocus={() => setActiveModuleIndex(idx)}
+                      onBlur={() => setActiveModuleIndex(null)}
+                      onClick={() => setActiveModuleIndex(activeModuleIndex === idx ? null : idx)}
+                      onPointerEnter={(event) => { if (event.pointerType !== 'touch') setActiveModuleIndex(idx) }}
+                      onPointerLeave={(event) => { if (event.pointerType !== 'touch') setActiveModuleIndex(null) }}
+                      className={`motion-control flex w-full items-center justify-between gap-4 p-2.5 rounded-lg border text-left transition-all cursor-pointer ${
                         activeModuleIndex === idx
                           ? 'bg-surface border-accent/40 shadow-sm scale-[1.02]'
                           : 'bg-surface/60 border-border hover:border-border-strong'
@@ -296,7 +301,7 @@ export default function TrafficMetricsSection() {
                         {item.name}
                       </span>
                       <span className="font-bold text-text-primary ml-2">{item.value}%</span>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>

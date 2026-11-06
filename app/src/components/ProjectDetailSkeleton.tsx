@@ -1,6 +1,6 @@
 export default function ProjectDetailSkeleton() {
   return (
-    <div className="animate-pulse space-y-6" role="status" aria-label="Cargando proyecto">
+    <div className="animate-pulse space-y-6" data-reveal="" role="status" aria-label="Cargando proyecto">
       <div className="h-9 w-2/3 rounded-lg bg-white/10" />
       <div className="aspect-video w-full rounded-2xl bg-white/10" />
       <div className="space-y-3">

@@ -116,10 +116,14 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { min-width: 320px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 body { margin: 0; min-width: 320px; background: var(--bg-canvas); color: var(--text-primary); font-family: var(--font-sans); font-size: var(--text-base); line-height: 1.7; }
-body, button, a { transition: color var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out); }
+body, button, a { transition: color var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out), translate var(--duration-fast) var(--ease-out), scale var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out); }
 button, a { font: inherit; }
 a { color: inherit; text-decoration: none; }
 button:focus-visible, a:focus-visible { outline: 3px solid var(--border-focus); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):hover, a[href]:hover { translate: 0 -1px; }
+}
+button:not(:disabled):active, a[href]:active { scale: 0.98; }
 ::selection { color: var(--text-on-accent); background: var(--accent-primary); }
 
 /* Cuadrícula sutil compartida por las dos versiones del diseño entregado. */
@@ -128,7 +132,86 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--border-focus); 
   background-size: 40px 40px;
 }
 
+/* Entradas CSS ligadas al recorrido de scroll, con contenido visible como fallback. */
+@keyframes reveal-in-view {
+  from { opacity: 0; transform: translate3d(0, 2.25rem, 0) scale(0.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@supports (animation-timeline: view()) and (animation-range: entry 0% entry 42%) {
+  [data-reveal] {
+    animation: reveal-in-view linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 42%;
+  }
+}
+
+.motion-control {
+  transition: color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    translate var(--duration-fast) var(--ease-out),
+    scale var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+.motion-surface {
+  transition: border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    translate var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .motion-control:hover { translate: 0 -2px; }
+  .motion-surface:hover { translate: 0 -5px; box-shadow: var(--shadow-lg); }
+}
+
+.motion-control:active { translate: 0 1px; scale: 0.98; }
+.motion-surface:focus-within { border-color: var(--border-focus); }
+.admin-list-row {
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.admin-list-row:active { background-color: var(--bg-surface-hover); }
+
+@keyframes ambient-drift {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -12px; }
+}
+
+.ambient-orb { animation: ambient-drift 18s var(--ease-in-out) infinite; }
+.ambient-orb-delayed { animation-delay: -9s; }
+
+@keyframes css-spinner-turn { to { transform: rotate(1turn); } }
+.css-spinner {
+  animation: css-spinner-turn 800ms linear infinite;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 9999px;
+}
+
+input, select, textarea {
+  transition: border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  /* Respeta la preferencia del sistema y reduce los cambios no esenciales. */
-  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+  /* El contenido queda en su estado final y el fondo ambiental permanece quieto. */
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] { animation: none !important; opacity: 1 !important; transform: none !important; }
+  button:not(:disabled):hover, a[href]:hover,
+  button:not(:disabled):active, a[href]:active,
+  .motion-control:hover, .motion-control:active,
+  .motion-surface:hover { translate: none !important; scale: none !important; }
 }

@@ -113,7 +113,7 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
       </header>
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" data-purpose="admin-main-hub">
-        <section className="space-y-6" data-purpose="admin-hero-header">
+        <section className="space-y-6" data-purpose="admin-hero-header" data-reveal="">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border pb-6">
             <div>
               <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-accent-surface border border-accent/25 text-accent font-mono text-xs font-medium mb-2">
@@ -130,7 +130,7 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
             <div className="flex items-center gap-2 self-start md:self-end">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-surface border border-border text-text-secondary shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Sprint 2 &amp; 3 Ready
+                Plataforma activa
               </span>
               <button
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold bg-accent hover:bg-accent-hover text-white shadow-sm shadow-accent/20 transition-all disabled:opacity-50"
@@ -154,7 +154,7 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
           <OverviewKPIsSection ref={kpisRef} />
         </section>
 
-        <section className="space-y-6" data-purpose="three-major-management-cards">
+        <section className="space-y-6" data-purpose="three-major-management-cards" data-reveal="">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">
@@ -171,11 +171,11 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <article className="rounded-2xl bg-surface border border-border hover:border-cyan transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md group">
+            <article className="motion-surface rounded-2xl bg-surface border border-border hover:border-cyan transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md group" data-reveal="">
               <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-500">
-                    HU07 · MAILING OPERATIVO
+                    MENSAJES · CONTACTO
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500 text-white animate-pulse shadow-sm">
                     Live Webhook
@@ -197,11 +197,11 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
               </div>
             </article>
 
-            <article className="rounded-2xl bg-surface border border-border hover:border-cyan transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md group">
+            <article className="motion-surface rounded-2xl bg-surface border border-border hover:border-cyan transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md group" data-reveal="">
               <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-semibold bg-cyan/10 border border-cyan/20 text-cyan">
-                    HU08 · CONTROL DE ACCESO
+                    CUENTAS · ACCESO
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-elevated text-text-secondary border border-border">
                     JWT Managed
@@ -226,11 +226,11 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
               </div>
             </article>
 
-            <article className="rounded-2xl bg-surface border border-border hover:border-cyan transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md group">
+            <article className="motion-surface rounded-2xl bg-surface border border-border hover:border-cyan transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-md group" data-reveal="">
               <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-semibold bg-purple-500/10 border border-purple-500/20 text-purple-400">
-                    HU09/HU10 · CRUD &amp; ASSETS
+                    PROYECTOS · CONTENIDO
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-elevated text-purple-400 border border-purple-500/20">
                     Supabase Storage
@@ -258,7 +258,7 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
         <TrafficMetricsSection />
 
         {/* Consola Operativa */}
-        <SystemLogsConsole />
+          <div data-reveal=""><SystemLogsConsole /></div>
       </main>
 
       {/* AdminFooter */}
@@ -272,7 +272,7 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
             <span className="text-border">|</span>
             <span className="text-text-secondary font-medium">Portfolio Core v1.0.0</span>
             <span className="text-border">|</span>
-            <span className="text-text-tertiary">HU01 · HU07 · HU08 · HU09/HU10</span>
+            <span className="text-text-tertiary">Módulos operativos</span>
           </div>
 
           <div className="flex items-center gap-4">

@@ -1,39 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { createContactMessage } from '../../services/contactService';
-
-function LottieLoader() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let anim: any;
-    if (containerRef.current) {
-      import('lottie-web')
-        .then((lottieModule) => {
-          const lottiePlayer = lottieModule.default || lottieModule;
-          anim = lottiePlayer.loadAnimation({
-            container: containerRef.current!,
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            animationData: defaultLoadingAnimation,
-          });
-        })
-        .catch(() => {
-          // Fallback silencioso
-        });
-    }
-
-    return () => {
-      if (anim) anim.destroy();
-    };
-  }, []);
-
-  return <div ref={containerRef} className="size-5" />;
-}
 
 // Schema con validación estricta de seguridad
 const contactSchema = z.object({
@@ -58,76 +28,6 @@ const contactSchema = z.object({
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
-
-// Animación Lottie fallback integrada
-const defaultLoadingAnimation = {
-  v: '5.5.7',
-  fr: 30,
-  ip: 0,
-  op: 60,
-  w: 60,
-  h: 60,
-  nm: 'Loader',
-  ddd: 0,
-  assets: [],
-  layers: [
-    {
-      ddd: 0,
-      ind: 1,
-      ty: 4,
-      nm: 'Spinner',
-      sr: 1,
-      ks: {
-        o: { k: 100 },
-        r: {
-          k: [
-            { t: 0, s: [0] },
-            { t: 60, s: [360] },
-          ],
-        },
-        p: { k: [30, 30, 0] },
-        a: { k: [0, 0, 0] },
-        s: { k: [100, 100, 100] },
-      },
-      ao: 0,
-      shapes: [
-        {
-          ty: 'gr',
-          it: [
-            {
-              ty: 'el',
-              d: 1,
-              s: { k: [40, 40] },
-              p: { k: [0, 0] },
-              nm: 'Path',
-            },
-            {
-              ty: 'st',
-              c: { k: [1, 0.35, 0.1, 1] },
-              o: { k: 100 },
-              w: { k: 4 },
-              lc: 2,
-              nm: 'Stroke',
-            },
-            {
-              ty: 'tm',
-              s: { k: 0 },
-              e: { k: 70 },
-              o: { k: 0 },
-              m: 1,
-              nm: 'Trim',
-            },
-          ],
-          nm: 'Circle',
-        },
-      ],
-      ip: 0,
-      op: 60,
-      st: 0,
-      bm: 0,
-    },
-  ],
-};
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -160,7 +60,7 @@ export function ContactForm() {
   };
 
   return (
-    <div className="rounded-2xl border border-default bg-surface p-6 shadow-lg lg:col-span-7">
+    <div className="motion-surface rounded-2xl border border-default bg-surface p-6 shadow-lg lg:col-span-7" data-reveal="">
       <div className="mb-6 border-b border-subtle pb-3">
         <h3 className="font-display text-sm font-bold text-text-primary">
           Enviar Mensaje Directo
@@ -173,7 +73,7 @@ export function ContactForm() {
       {success && (
         <div
           role="alert"
-          className="mb-6 rounded-xl border border-accent/30 bg-accent-surface p-4 text-xs text-text-primary"
+          className="mb-6 rounded-xl border border-accent/30 bg-accent-surface p-4 text-xs text-text-primary" data-reveal=""
         >
           <p className="font-mono font-semibold text-accent">✓ Mensaje enviado correctamente</p>
           <p className="mt-1 text-text-secondary">
@@ -185,7 +85,7 @@ export function ContactForm() {
       {serverError && (
         <div
           role="alert"
-          className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-xs text-red-500"
+          className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-xs text-red-500" data-reveal=""
         >
           <p className="font-mono font-semibold">✕ Error en el envío</p>
           <p className="mt-1">{serverError}</p>
@@ -261,11 +161,11 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 font-mono text-xs font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="motion-control flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 font-mono text-xs font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? (
             <div className="flex items-center gap-2">
-              <LottieLoader />
+              <span aria-hidden="true" className="css-spinner size-5" />
               <span>Enviando...</span>
             </div>
           ) : (

@@ -46,8 +46,8 @@ export default function BentoGrid() {
   }, [])
 
   return (
-    <section id="proyectos" aria-labelledby="projects-title" className="scroll-mt-32 border-t border-subtle py-16">
-      <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <section id="proyectos" aria-labelledby="projects-title" className="scroll-mt-32 border-t border-subtle py-16" data-reveal="">
+      <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end" data-reveal="">
         <div>
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent-surface px-3 py-1 font-mono text-xs font-semibold text-accent">
             <span>Catálogo de proyectos</span>
@@ -58,42 +58,28 @@ export default function BentoGrid() {
         </div>
       </div>
 
-      {loading && <p className="text-sm text-text-secondary" role="status">Cargando proyectos…</p>}
+      {loading && <p className="text-sm text-text-secondary" data-reveal="" role="status">Cargando proyectos…</p>}
       
       {error && (
-        <p className="rounded-xl border border-warning/30 bg-warning/10 p-4 text-sm text-text-secondary" role="status">
+        <p className="rounded-xl border border-warning/30 bg-warning/10 p-4 text-sm text-text-secondary" data-reveal="" role="status">
           {error}
         </p>
       )}
 
       {!loading && !error && projects.length === 0 && (
-        <p className="rounded-xl border border-default bg-surface p-5 text-sm text-text-secondary">
+        <p className="rounded-xl border border-default bg-surface p-5 text-sm text-text-secondary" data-reveal="">
           Próximamente habrá nuevos proyectos.
         </p>
       )}
 
       {!error && (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal="">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       )}
 
-      <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-xl border border-dashed border-default bg-surface p-5 sm:flex-row">
-        <div className="flex items-center gap-3">
-          <span aria-hidden="true" className="flex size-8 items-center justify-center rounded-lg bg-accent-surface font-mono text-xs font-bold text-accent">
-            05
-          </span>
-          <div>
-            <span className="block font-mono text-xs text-text-tertiary">// HU05 — Módulo de detalle y demos privadas</span>
-            <p className="text-xs text-text-secondary">La vista de detalle y acceso a repositorios protegidos se gestionan según las credenciales del usuario.</p>
-          </div>
-        </div>
-        <span className="rounded border border-accent/20 bg-accent-surface px-3 py-1 font-mono text-[11px] text-accent">
-          Active Module
-        </span>
-      </div>
     </section>
   )
 }

@@ -67,7 +67,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     <article
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-default bg-surface ${
+      data-reveal=""
+      className={`motion-surface group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-default bg-surface ${
         project.featured ? 'lg:col-span-2' : ''
       }`}
     >
@@ -91,7 +92,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             src={imageUrl}
             alt={`Previsualización de ${projectTitle}`}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none"
           />
         ) : hasVideo ? (
           <video
@@ -127,7 +128,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </span>
             {project.featured && (
               <span className="rounded border border-subtle bg-surface-hover px-2.5 py-0.5 font-mono text-[11px] font-semibold text-text-secondary">
-                Sprint 1 compatible
+                Proyecto destacado
               </span>
             )}
           </div>

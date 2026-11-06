@@ -57,7 +57,7 @@ export default function Navbar({ theme, onThemeChange }: NavbarProps) {
     <header className="fixed inset-x-4 top-4 z-50 mx-auto max-w-6xl sm:inset-x-6">
       <nav aria-label="Navegación principal" className="relative rounded-xl border border-default bg-overlay px-4 py-3 shadow-lg backdrop-blur-xl sm:px-5">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <a aria-label="Alex Dev, ir al inicio" className="flex shrink-0 items-center gap-2.5" href="/#inicio">
+            <a aria-label="Alex Dev, ir al inicio" className="motion-control flex shrink-0 items-center gap-2.5 rounded-md" href="/#inicio">
             <span aria-hidden="true" className="grid size-10 place-items-center rounded-md bg-accent font-mono text-base font-bold text-text-on-accent">&lt;A/&gt;</span>
             <span className="flex flex-col">
               <span className="font-display text-sm font-bold tracking-tight text-text-primary">Alex Dev<span className="text-accent">.</span></span>
@@ -67,14 +67,14 @@ export default function Navbar({ theme, onThemeChange }: NavbarProps) {
 
           <div className="order-3 flex w-full items-center justify-center gap-1 rounded-lg border border-subtle bg-surface-hover p-1 lg:order-none lg:w-auto">
             {links.map((link) => (
-              <a key={link.href} aria-current={activeSection === link.href.split('#')[1] ? 'location' : undefined} className={sectionLinkClass(link.href.split('#')[1])} href={link.href} onClick={() => handleSectionClick(link.href.split('#')[1])}>
+              <a key={link.href} aria-current={activeSection === link.href.split('#')[1] ? 'location' : undefined} className={`motion-control ${sectionLinkClass(link.href.split('#')[1])}`} href={link.href} onClick={() => handleSectionClick(link.href.split('#')[1])}>
                 {link.label}
               </a>
             ))}
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <button aria-label="Alternar tema oscuro y claro" aria-pressed={theme === 'light'} className="grid size-9 place-items-center rounded-md border border-default bg-surface text-text-secondary hover:border-accent hover:text-text-primary" onClick={onThemeChange} type="button">
+            <button aria-label="Alternar tema oscuro y claro" aria-pressed={theme === 'light'} className="motion-control grid size-9 place-items-center rounded-md border border-default bg-surface text-text-secondary hover:border-accent hover:text-text-primary" onClick={onThemeChange} type="button">
               {theme === 'dark' ? (
                 <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
@@ -98,7 +98,7 @@ export default function Navbar({ theme, onThemeChange }: NavbarProps) {
               <Link className={authLink} to="/login">Iniciar sesión</Link>
             )}
 
-            <a className="hidden items-center justify-center gap-1.5 rounded-md bg-accent px-3 py-2 text-xs font-semibold text-text-on-accent hover:bg-accent-hover sm:inline-flex sm:px-4" href="/#contacto">
+            <a className="motion-control hidden items-center justify-center gap-1.5 rounded-md bg-accent px-3 py-2 text-xs font-semibold text-text-on-accent hover:bg-accent-hover sm:inline-flex sm:px-4" href="/#contacto">
               Conectar <span aria-hidden="true">→</span>
             </a>
           </div>

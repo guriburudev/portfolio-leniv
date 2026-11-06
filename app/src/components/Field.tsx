@@ -38,10 +38,9 @@ export default function Field({ label, error, hint, className = '', type = 'text
         {isPassword && (
           <button
             type="button"
-            tabIndex={-1}
             onClick={() => setShowPassword((prev) => !prev)}
             aria-label={showPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-tertiary transition-colors hover:text-text-primary focus:outline-none"
+            className="motion-control absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-text-tertiary transition-colors hover:text-text-primary"
           >
             {showPassword ? (
               // Icono ojo tachado

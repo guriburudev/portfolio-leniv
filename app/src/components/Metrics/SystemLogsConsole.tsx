@@ -69,7 +69,7 @@ export default function SystemLogsConsole() {
   }, [])
 
   return (
-    <section className="rounded-2xl bg-surface border border-border p-6 space-y-4 shadow-sm" data-purpose="telemetry-logs-widget">
+    <section className="motion-surface rounded-2xl bg-surface border border-border p-6 space-y-4 shadow-sm" data-purpose="telemetry-logs-widget" data-reveal="">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -89,7 +89,7 @@ export default function SystemLogsConsole() {
           <p className="text-slate-500 italic">Esperando eventos en tiempo real...</p>
         ) : (
           logs.map((log) => (
-            <div key={log.id} className="flex items-center gap-2 transition-all">
+            <div key={log.id} className="flex items-center gap-2" data-reveal="">
               <span className="text-slate-500">[{log.timestamp}]</span>
               <span
                 className={`font-semibold ${

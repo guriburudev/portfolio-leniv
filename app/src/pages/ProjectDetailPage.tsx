@@ -35,12 +35,12 @@ export default function ProjectDetailPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8" data-reveal="">
       <div className="flex items-center justify-between gap-4">
         <Link
           to="/"
           aria-label="Volver al inicio"
-          className="text-sm font-medium text-text-secondary hover:text-text-primary"
+          className="motion-control rounded-sm text-sm font-medium text-text-secondary hover:text-text-primary"
         >
           ← Volver a proyectos
         </Link>
@@ -49,7 +49,7 @@ export default function ProjectDetailPage() {
       {loading && <ProjectDetailSkeleton />}
 
       {error && !loading && (
-        <div role="alert" className="rounded-2xl border border-warning/30 bg-warning/10 p-6">
+        <div role="alert" className="motion-surface rounded-2xl border border-warning/30 bg-warning/10 p-6" data-reveal="">
           <p className="font-semibold text-warning">{error}</p>
           <Link to="/" className="mt-3 inline-block text-sm text-text-secondary underline hover:text-text-primary">
             Volver al inicio
@@ -59,12 +59,12 @@ export default function ProjectDetailPage() {
 
       {project && !loading && (
         <>
-          <header>
+          <header data-reveal="">
             <h1 className="font-display text-3xl font-bold text-text-primary sm:text-4xl">{project.title}</h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text-secondary">{project.description}</p>
           </header>
 
-          <section aria-label="Demo del proyecto" className="overflow-hidden rounded-2xl border border-default bg-surface">
+          <section aria-label="Demo del proyecto" className="motion-surface overflow-hidden rounded-2xl border border-default bg-surface" data-reveal="">
             {project.demoUrl ? (
               isVideoUrl(project.demoUrl) ? (
                 <video
@@ -91,7 +91,7 @@ export default function ProjectDetailPage() {
             )}
           </section>
 
-          <section aria-labelledby="tech-title">
+          <section aria-labelledby="tech-title" data-reveal="">
             <h2 id="tech-title" className="mb-3 font-display text-lg font-bold text-text-primary">Tecnologías</h2>
             <ul className="flex flex-wrap gap-1.5 font-mono text-xs text-text-secondary">
               {project.technologies.map((technology) => (
@@ -100,7 +100,7 @@ export default function ProjectDetailPage() {
             </ul>
           </section>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3" data-reveal="">
             {project.repoUrl && (
               <a
                 href={project.repoUrl}

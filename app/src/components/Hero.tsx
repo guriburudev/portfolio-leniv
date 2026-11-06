@@ -11,14 +11,14 @@ const stack = [
 export default function Hero() {
   return (
     <section id="inicio" aria-labelledby="hero-title" className="relative scroll-mt-32 pb-16 pt-6 lg:pb-24">
-      <div className="mb-6">
+      <div className="mb-6" data-reveal="">
         <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent-surface px-3 py-1 font-mono text-xs font-medium tracking-wide text-accent">
-          <span aria-hidden="true" className="size-2 rounded-full bg-accent" /> Portfolio · Arquitectura Sprint 1 (HU01)
+          <span aria-hidden="true" className="size-2 rounded-full bg-accent" /> Desarrollo de software · Fullstack
         </span>
       </div>
 
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
-        <div className="flex flex-col gap-6 lg:col-span-7">
+        <div className="flex flex-col gap-6 lg:col-span-7" data-reveal="">
           <h1 id="hero-title" className="font-display text-4xl font-extrabold leading-[1.12] tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
             Construyendo soluciones <span className="text-accent">fullstack robustas</span> de punta a punta.
           </h1>
@@ -36,7 +36,7 @@ export default function Hero() {
         </div>
 
         {/* Vista ilustrativa sin ejecución de código ni animaciones. */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5" data-reveal="">
           <div role="img" aria-label="Panel ilustrativo con un perfil de ingeniería escrito en TypeScript" className="relative overflow-hidden rounded-2xl border border-default bg-surface p-5 shadow-xl backdrop-blur-md sm:p-6">
             <div className="mb-4 flex items-center justify-between border-b border-subtle pb-4">
               <div className="flex items-center gap-2">
@@ -51,12 +51,11 @@ export default function Hero() {
               <p><span className="font-semibold text-accent">interface</span> <span className="font-semibold text-text-primary">Engineer</span> {'{'}</p>
               <p className="pl-4">name: <span className="text-accent">'Alex Dev'</span>;</p>
               <p className="pl-4">role: <span className="text-accent">'Fullstack Developer'</span>;</p>
-              <p className="pl-4">sprint: <span className="text-accent">1</span> <span className="text-text-tertiary">// HU01 Portfolio</span>;</p>
-              <p className="pl-4">focus: [<span className="text-accent">'React'</span>, <span className="text-accent">'Node'</span>, <span className="text-accent">'Tailwind'</span>, <span className="text-accent">'Postgres'</span>];</p>
+              <p className="pl-4">focus: [<span className="text-accent">'Interfaces'</span>, <span className="text-accent">'APIs'</span>, <span className="text-accent">'Arquitectura'</span>, <span className="text-accent">'Rendimiento'</span>];</p>
               <p className="pl-4">status: <span className="font-semibold text-success">'Ready to build'</span>;</p>
               <p>{'}'}</p>
               <div className="flex items-center justify-between border-t border-subtle pt-3 text-[11px]">
-                <span className="text-text-tertiary">// Interfaz estática · sin animaciones</span>
+                <span className="text-text-tertiary">// Código ilustrativo · no ejecutable</span>
                 <span aria-hidden="true" className="inline-block h-4 w-2 bg-accent" />
               </div>
             </div>
@@ -64,7 +63,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div id="stack-ribbon" className="mt-16 border-t border-subtle pt-10">
+      <div id="stack-ribbon" className="mt-16 border-t border-subtle pt-10" data-reveal="">
         <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center md:gap-6">
           <div>
             <span className="mb-1 block font-mono text-xs font-semibold uppercase tracking-widest text-accent">Capacidades principales</span>
@@ -74,7 +73,7 @@ export default function Hero() {
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
           {stack.map((technology) => (
-            <div key={technology.name} className="flex flex-col items-center justify-center gap-2 rounded-xl border border-default bg-surface p-3.5 text-center">
+            <div key={technology.name} className="motion-surface flex flex-col items-center justify-center gap-2 rounded-xl border border-default bg-surface p-3.5 text-center">
               <span aria-hidden="true" className="flex size-8 items-center justify-center rounded-lg bg-accent-surface font-mono text-sm font-bold text-accent">{technology.mark}</span>
               <span className="text-xs font-semibold text-text-primary">{technology.name}</span>
               <span className="font-mono text-[10px] text-text-tertiary">{technology.detail}</span>

@@ -1,7 +1,7 @@
 // Clases de Tailwind reutilizables, basadas en los tokens del proyecto.
 
 const btnBase =
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40'
+  'motion-control inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-40'
 
 export const btnPrimary = `${btnBase} bg-accent px-5 py-2.5 text-sm text-text-on-accent hover:bg-accent-hover`
 export const btnSecondary = `${btnBase} border border-default bg-surface px-5 py-2.5 text-sm text-text-primary hover:border-accent`
