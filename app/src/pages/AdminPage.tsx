@@ -379,12 +379,12 @@ export default function AdminPage({ theme, onThemeChange }: AdminPageProps) {
               </div>
 
               <div className="p-6 pt-0">
-                <button className="w-full py-2.5 px-4 rounded-xl bg-cyan hover:bg-cyan/80 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-200" type="button">
-                  <span className="text-white dark:text-black">Gestionar Cuentas de Acceso</span>
+                <Link to="/admin/users" className="w-full py-2.5 px-4 rounded-xl bg-green-500 hover:bg-yellow-400 font-medium text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm shadow-purple-600/30 hover:shadow transition-all duration-200">
+                  <span className="text-white dark:text-black">Abrir Gestor de Usuarios</span>
                   <svg className="w-4 h-4 text-white dark:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
                   </svg>
-                </button>
+                </Link>
               </div>
             </article>
 
